@@ -1,0 +1,1999 @@
+/* =========================================================
+   Portfolio — นราวิชญ์ ศิริ
+   แนวทาง: เอกสารทำงาน (dossier) — ตัวอักษรเป็นผู้นำ
+   พื้นกระดาษสีขาวอมฟ้า, เส้นคั่นบาง, สีน้ำเงินเดียวเป็นจุดเน้น
+   ---------------------------------------------------------
+   สารบัญ
+   1.  ตัวแปร (Design Tokens)
+   2.  รีเซ็ต & ค่าพื้นฐาน
+   3.  โครงหน้า (container / section / rail)
+   4.  องค์ประกอบที่ใช้ซ้ำ (ปุ่ม / แท็ก / รายการ)
+   5.  Header & เมนูนำทาง
+   6.  Hero
+   7.  เกี่ยวกับ
+   8.  ทักษะ
+   9.  ประสบการณ์ & การศึกษา (entry rows)
+   10. ผลงาน
+   11. ติดต่อ & Footer
+   12. Animation & ของลอย (reveal, progress, to-top, toast)
+   13. Responsive
+   14. โหมดพิมพ์ (Print / PDF)
+   ========================================================= */
+
+/* =========================================================
+   1. ตัวแปร
+   ========================================================= */
+:root {
+  /* โทนน้ำเงิน */
+  --blue-50: #eef4ff;
+  --blue-100: #dbe6fb;
+  --blue-200: #c2d4f4;
+  --blue-300: #93b4ea;
+  --blue-500: #3b6ef0;
+  --blue-600: #1d4ed8;
+  --blue-700: #173fb0;
+  --blue-900: #0a1f47;
+
+  /* โทนกลาง */
+  --white: #ffffff;
+  --bg: #f3f6fb;
+  --bg-soft: #e9eff9;
+  --navy: #0d1a30;
+  --text: #26334a;
+  --muted: #5d6a80;
+  --border: #dbe2ee;
+  --border-strong: #c3cddd;
+  --green: #1a9e5f;
+
+  /* เงา */
+  --shadow-sm: 0 1px 2px rgba(13, 26, 48, 0.05);
+  --shadow-md: 0 22px 44px -32px rgba(13, 26, 48, 0.45);
+
+  /* รูปทรง */
+  --radius-sm: 4px;
+  --radius: 6px;
+  --radius-lg: 12px;
+  --radius-full: 999px;
+
+  /* ระยะห่าง / โครง */
+  --container: 1180px;
+  --header-h: 70px;
+  --rail: 220px;
+  --gutter: 56px;
+
+  /* ฟอนต์ */
+  --font-display: "Trirong", "Noto Serif Thai", Georgia, "Times New Roman", serif;
+  --font-body: "IBM Plex Sans Thai", "Noto Sans Thai", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* จังหวะการเคลื่อนไหว */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* =========================================================
+   2. รีเซ็ต & ค่าพื้นฐาน
+   ========================================================= */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-h) + 24px);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.8;
+  color: var(--text);
+  background-color: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  color: var(--navy);
+  line-height: 1.45;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+ul,
+ol,
+dl,
+dd {
+  margin: 0;
+  padding: 0;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+a {
+  color: var(--blue-600);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--blue-700);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+::selection {
+  background: var(--blue-200);
+  color: var(--navy);
+}
+
+/* ให้โฟกัสมองเห็นชัด (การเข้าถึง) */
+:focus-visible {
+  outline: 2px solid var(--blue-600);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ปุ่มข้ามไปเนื้อหาหลัก */
+.skip-link {
+  position: absolute;
+  left: 16px;
+  top: -80px;
+  z-index: 200;
+  background: var(--blue-700);
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: 12px;
+  color: #fff;
+}
+
+/* =========================================================
+   3. โครงหน้า
+   ========================================================= */
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: 28px;
+}
+
+.section {
+  padding-block: 88px;
+  border-top: 1px solid var(--border);
+}
+
+.section.is-tinted {
+  background: var(--bg-soft);
+}
+
+/* โครงหลัก: คอลัมน์ชื่อหัวข้อ + คอลัมน์เนื้อหา */
+.section-grid {
+  display: grid;
+  grid-template-columns: var(--rail) minmax(0, 1fr);
+  gap: var(--gutter);
+  align-items: start;
+}
+
+.section-rail {
+  position: sticky;
+  top: calc(var(--header-h) + 36px);
+}
+
+.section-title {
+  font-size: clamp(1.5rem, 1.25rem + 0.6vw, 1.8rem);
+  line-height: 1.5;
+  color: var(--navy);
+  margin: 0 0 10px;
+}
+
+.section-note {
+  font-size: 0.85rem;
+  line-height: 1.75;
+  color: var(--muted);
+  max-width: 200px;
+  margin: 0;
+}
+
+.section-body {
+  min-width: 0;
+}
+
+/* หัวข้อย่อยภายในเนื้อหา */
+.group-title {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--blue-700);
+  margin: 0 0 14px;
+}
+
+/* =========================================================
+   4. องค์ประกอบที่ใช้ซ้ำ
+   ========================================================= */
+/* --- ปุ่ม --- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 0.94rem;
+  font-weight: 500;
+  line-height: 1.3;
+  padding: 12px 22px;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.btn-primary {
+  background: var(--blue-600);
+  border-color: var(--blue-600);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: var(--blue-700);
+  border-color: var(--blue-700);
+  color: #fff;
+}
+
+.btn-outline {
+  background: var(--white);
+  border-color: var(--border-strong);
+  color: var(--navy);
+}
+
+.btn-outline:hover {
+  border-color: var(--blue-600);
+  color: var(--blue-700);
+}
+
+.btn-light {
+  background: #fff;
+  border-color: #fff;
+  color: var(--blue-900);
+}
+
+.btn-light:hover {
+  background: var(--blue-50);
+  border-color: var(--blue-50);
+  color: var(--blue-900);
+}
+
+.btn-sm {
+  padding: 9px 16px;
+  font-size: 0.88rem;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+/* --- แท็ก (ภาษา / งานอดิเรก / เทคโนโลยีของโปรเจกต์) --- */
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag-list li {
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--blue-700);
+  background: var(--white);
+  border: 1px solid var(--blue-200);
+  border-radius: var(--radius-sm);
+  padding: 3px 9px;
+  white-space: nowrap;
+}
+
+/* --- รายการแบบจุด --- */
+.bullet-list {
+  display: grid;
+  gap: 9px;
+}
+
+.bullet-list li {
+  position: relative;
+  padding-left: 17px;
+  color: var(--muted);
+  font-size: 0.93rem;
+  line-height: 1.75;
+}
+
+.bullet-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.72em;
+  width: 4px;
+  height: 4px;
+  border-radius: 1px;
+  background: var(--blue-500);
+}
+
+/* --- แถบความคืบหน้าการเลื่อนหน้า --- */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 0;
+  background: var(--blue-600);
+  z-index: 150;
+  transition: width 0.18s ease-out;
+}
+
+/* =========================================================
+   5. Header & เมนูนำทาง
+   ========================================================= */
+.site-header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: var(--header-h);
+  z-index: 100;
+  background: rgba(243, 246, 251, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.25s ease, background-color 0.25s ease;
+}
+
+.site-header.is-scrolled {
+  background: rgba(243, 246, 251, 0.97);
+  border-bottom-color: var(--border);
+}
+
+.header-inner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  color: var(--navy);
+}
+
+.brand:hover {
+  color: var(--navy);
+}
+
+.brand-mark {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  background: var(--navy);
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+  flex-shrink: 0;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+}
+
+.brand-text strong {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--navy);
+}
+
+.brand-text small {
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.nav-list {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.nav-link {
+  position: relative;
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text);
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  transition: color 0.2s ease;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 1px;
+  height: 2px;
+  background: var(--blue-600);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.22s var(--ease);
+}
+
+.nav-link:hover {
+  color: var(--blue-700);
+}
+
+.nav-link:hover::after {
+  transform: scaleX(1);
+}
+
+.nav-link.active {
+  color: var(--blue-700);
+}
+
+.nav-link.active::after {
+  transform: scaleX(1);
+}
+
+/* ปุ่มแฮมเบอร์เกอร์ (แสดงเฉพาะมือถือ) */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  width: 42px;
+  height: 42px;
+  padding: 0 10px;
+  background: var(--white);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+.nav-toggle span {
+  display: block;
+  height: 1.5px;
+  width: 100%;
+  background: var(--navy);
+  transition: transform 0.22s ease, opacity 0.22s ease;
+}
+
+.nav-toggle.is-open span:nth-child(1) {
+  transform: translateY(5.5px) rotate(45deg);
+}
+
+.nav-toggle.is-open span:nth-child(2) {
+  opacity: 0;
+}
+
+.nav-toggle.is-open span:nth-child(3) {
+  transform: translateY(-5.5px) rotate(-45deg);
+}
+
+/* =========================================================
+   6. Hero
+   ========================================================= */
+.hero {
+  position: relative;
+  padding: calc(var(--header-h) + 64px) 0 58px;
+  background: var(--bg);
+  overflow: hidden;
+}
+
+/* ตารางจาง ๆ เหมือนกระดาษเขียนแบบ ของคนทำงานสายเทคนิค */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(29, 78, 216, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(29, 78, 216, 0.045) 1px, transparent 1px);
+  background-size: 88px 88px;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 46%, transparent 88%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 46%, transparent 88%);
+  pointer-events: none;
+}
+
+.hero-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 320px);
+  gap: clamp(40px, 6vw, 84px);
+  align-items: start;
+}
+
+.hero-text {
+  padding-top: 6px;
+}
+
+.hero-intro {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin: 0 0 4px;
+}
+
+.hero-name {
+  font-size: clamp(2.6rem, 1.7rem + 3.6vw, 4.5rem);
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.005em;
+  color: var(--navy);
+  margin: 0;
+}
+
+.hero-role {
+  font-size: 1.02rem;
+  font-weight: 500;
+  color: var(--blue-700);
+  margin: 14px 0 0;
+  line-height: 1.7;
+}
+
+.hero-desc {
+  max-width: 54ch;
+  color: var(--muted);
+  font-size: 1rem;
+  margin: 22px 0 30px;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+/* --- รูปโปรไฟล์: แผ่นภาพถ่ายพร้อมคำบรรยาย --- */
+.hero-plate {
+  width: 100%;
+  max-width: 320px;
+  justify-self: end;
+  margin: 0;
+}
+
+.plate-frame {
+  background: var(--white);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: 9px;
+  box-shadow: var(--shadow-md);
+}
+
+.plate-frame img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: 2px;
+  background: var(--blue-100);
+}
+
+.plate-caption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 12px;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  color: var(--navy);
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 0 3px rgba(26, 158, 95, 0.14);
+}
+
+/* แถบข้อมูลสั้นใต้ Hero */
+.hero-facts {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
+  border-top: 1px solid var(--border-strong);
+  margin-top: 62px;
+  padding-top: 20px;
+}
+
+.hero-facts dt {
+  font-size: 0.76rem;
+  font-weight: 500;
+  color: var(--muted);
+  margin-bottom: 3px;
+}
+
+.hero-facts dd {
+  font-size: 0.97rem;
+  font-weight: 500;
+  color: var(--navy);
+  line-height: 1.6;
+}
+
+/* =========================================================
+   7. เกี่ยวกับ
+   ========================================================= */
+.about-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr);
+  gap: clamp(36px, 5vw, 64px);
+  align-items: start;
+}
+
+.info-list {
+  display: grid;
+}
+
+.info-row {
+  display: grid;
+  grid-template-columns: 124px minmax(0, 1fr);
+  gap: 16px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.93rem;
+  line-height: 1.7;
+}
+
+.info-row:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.info-row dt {
+  font-weight: 500;
+  color: var(--navy);
+}
+
+.info-row dd {
+  color: var(--muted);
+  overflow-wrap: break-word;
+}
+
+.about-side {
+  display: grid;
+  gap: 44px;
+}
+
+.lead {
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 1rem + 0.38vw, 1.22rem);
+  font-weight: 400;
+  line-height: 1.9;
+  color: #1c2a42;
+  max-width: 50ch;
+  margin: 0;
+}
+
+/* กลุ่มย่อยในการ์ด "เกี่ยวกับ": ภาษา / งานอดิเรก */
+.about-facts .mini-group,
+.about-side .mini-group {
+  margin-top: 40px;
+  border-top: 1px solid var(--border);
+  padding-top: 26px;
+}
+
+.mini-group .group-title {
+  margin-bottom: 8px;
+}
+
+.mini-list {
+  display: grid;
+}
+
+.mini-list > div {
+  display: grid;
+  grid-template-columns: 88px minmax(0, 1fr);
+  gap: 16px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  align-items: baseline;
+}
+
+.mini-list > div:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.mini-list dt {
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--navy);
+  white-space: nowrap;
+}
+
+.mini-list dd {
+  font-size: 0.87rem;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+/* =========================================================
+   8. ทักษะ
+   ========================================================= */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.skill-block {
+  min-width: 0;
+  padding-inline: 28px;
+  border-left: 1px solid var(--border);
+}
+
+.skill-block:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.skill-block:last-child {
+  padding-right: 0;
+}
+
+.skill-title {
+  font-size: 1.28rem;
+  line-height: 1.5;
+  margin: 0 0 20px;
+  color: var(--navy);
+}
+
+/* แถบความชำนาญ: แบบบาง เรียบ เหมือนมิเตอร์ */
+.progress-group {
+  display: grid;
+  gap: 18px;
+}
+
+.progress-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 0.89rem;
+  line-height: 1.6;
+  color: var(--navy);
+  margin-bottom: 8px;
+}
+
+.progress-pct {
+  font-size: 0.76rem;
+  font-weight: 500;
+  color: var(--blue-700);
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+
+.progress-track {
+  height: 4px;
+  border-radius: 2px;
+  background: var(--blue-100);
+  overflow: hidden;
+}
+
+.progress-bar {
+  display: block;
+  height: 100%;
+  width: 0;
+  border-radius: 2px;
+  background: var(--blue-600);
+  transition: width 1.1s var(--ease);
+}
+
+/* =========================================================
+   9. ประสบการณ์ & การศึกษา
+   ========================================================= */
+.entry-list {
+  border-bottom: 1px solid var(--border);
+}
+
+.entry {
+  display: grid;
+  grid-template-columns: 176px minmax(0, 1fr);
+  gap: 40px;
+  padding: 26px 0;
+  border-top: 1px solid var(--border);
+}
+
+.entry-when {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.7;
+  padding-top: 5px;
+  margin: 0;
+}
+
+.entry-role {
+  font-size: 1.24rem;
+  line-height: 1.5;
+  margin: 0 0 3px;
+  color: var(--navy);
+}
+
+.entry-kind {
+  font-family: var(--font-body);
+  font-size: 0.84rem;
+  font-weight: 400;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.entry-org {
+  font-size: 0.92rem;
+  color: var(--blue-700);
+  margin: 0 0 16px;
+  line-height: 1.7;
+}
+
+.entry-main > .entry-org:last-child {
+  margin-bottom: 0;
+}
+
+.entry-detail {
+  font-size: 0.88rem;
+  color: var(--muted);
+  margin: 4px 0 0;
+}
+
+/* =========================================================
+   10. ผลงาน
+   ========================================================= */
+.work-list {
+  border-bottom: 1px solid var(--border);
+}
+
+.work {
+  border-top: 1px solid var(--border);
+  padding: 24px 0;
+}
+
+.work-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.work-title {
+  font-size: 1.25rem;
+  line-height: 1.5;
+  margin: 0;
+  color: var(--navy);
+}
+
+.work-head .tag-list {
+  justify-content: flex-end;
+  padding-top: 5px;
+  flex-shrink: 0;
+  max-width: 52%;
+}
+
+.work-desc {
+  font-size: 0.93rem;
+  color: var(--muted);
+  max-width: 62ch;
+  margin: 8px 0 0;
+}
+
+/* =========================================================
+   11. ติดต่อ & Footer
+   ========================================================= */
+.section-contact {
+  position: relative;
+  background: var(--blue-900);
+  color: #fff;
+  border-top: 0;
+  overflow: hidden;
+}
+
+.section-contact::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 88px 88px;
+  -webkit-mask-image: linear-gradient(to bottom, #000, transparent 85%);
+  mask-image: linear-gradient(to bottom, #000, transparent 85%);
+  pointer-events: none;
+}
+
+.section-contact .container {
+  position: relative;
+}
+
+.section-contact .section-title {
+  color: #fff;
+}
+
+.section-contact .section-note {
+  color: rgba(255, 255, 255, 0.62);
+}
+
+/* ไม่ใช้ sticky ในส่วนที่มี overflow:hidden (จะทำให้ sticky เลื่อนผิดที่) */
+.section-contact .section-rail {
+  position: static;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: 56px;
+  align-items: start;
+}
+
+.contact-title {
+  font-size: clamp(1.6rem, 1.15rem + 1.6vw, 2.3rem);
+  line-height: 1.55;
+  color: #fff;
+  margin: 0 0 12px;
+}
+
+.contact-desc {
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 0.96rem;
+  max-width: 46ch;
+  margin: 0;
+}
+
+.contact-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px 26px;
+  margin-top: 30px;
+}
+
+.link-underline {
+  color: #fff;
+  font-size: 0.92rem;
+  padding-bottom: 2px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.45);
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.link-underline:hover {
+  color: #fff;
+  border-bottom-color: #fff;
+}
+
+.contact-list {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.contact-list li {
+  display: flex;
+  gap: 14px;
+  padding: 13px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.contact-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  margin-top: 4px;
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.62);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.contact-list div {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.6;
+}
+
+.contact-label {
+  font-size: 0.76rem;
+  color: rgba(255, 255, 255, 0.55);
+  margin-bottom: 1px;
+}
+
+.contact-list a,
+.contact-list div > span:not(.contact-label) {
+  color: #fff;
+  font-size: 0.92rem;
+  overflow-wrap: break-word;
+}
+
+.contact-list a:hover {
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.site-footer {
+  background: #08142a;
+  color: rgba(255, 255, 255, 0.6);
+  padding: 24px 0;
+}
+
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.site-footer p {
+  margin: 0;
+  font-size: 0.82rem;
+}
+
+.footer-note {
+  color: rgba(255, 255, 255, 0.56);
+}
+
+/* =========================================================
+   12. Animation & ของลอย
+   ========================================================= */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.to-top {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--navy);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 14px 28px -18px rgba(13, 26, 48, 0.9);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease,
+    background-color 0.2s ease;
+  z-index: 120;
+}
+
+.to-top svg {
+  width: 19px;
+  height: 19px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.to-top.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.to-top:hover {
+  background: var(--blue-700);
+}
+
+/* --- ข้อความแจ้งเตือน (Toast) เช่น "คัดลอกอีเมลแล้ว" --- */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translate(-50%, 12px);
+  max-width: min(92vw, 480px);
+  padding: 10px 18px;
+  border-radius: var(--radius);
+  background: var(--navy);
+  color: #fff;
+  font-size: 0.87rem;
+  line-height: 1.6;
+  text-align: center;
+  box-shadow: 0 18px 40px -20px rgba(13, 26, 48, 0.85);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+  z-index: 200;
+  pointer-events: none;
+}
+
+.toast.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+}
+
+/* ลิงก์อีเมลที่คลิกแล้วคัดลอกที่อยู่ให้อัตโนมัติ */
+.js-copy-email {
+  cursor: copy;
+}
+
+/* เคารพผู้ใช้ที่ปิดอนิเมชัน */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .progress-bar {
+    transition: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* =========================================================
+   13. Responsive
+   ========================================================= */
+@media (max-width: 1100px) {
+  :root {
+    --rail: 190px;
+    --gutter: 44px;
+  }
+
+  .hero-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 300px);
+  }
+
+  .about-grid {
+    gap: 40px;
+  }
+
+  .entry {
+    grid-template-columns: 150px minmax(0, 1fr);
+    gap: 30px;
+  }
+
+  .contact-grid {
+    gap: 40px;
+  }
+}
+
+@media (max-width: 960px) {
+  .hero {
+    padding-top: calc(var(--header-h) + 44px);
+  }
+
+  .hero-grid {
+    grid-template-columns: minmax(0, 1fr) 280px;
+    gap: 40px;
+  }
+
+  .hero-plate {
+    max-width: 280px;
+  }
+
+  .hero-facts {
+    margin-top: 48px;
+  }
+
+  .section-grid {
+    display: block;
+  }
+
+  .section-rail {
+    position: static;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 28px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 14px;
+    margin-bottom: 32px;
+  }
+
+  .section-title {
+    margin: 0;
+  }
+
+  .section-note {
+    max-width: 34ch;
+    text-align: right;
+  }
+
+  /* ระยะบรรทัดใน rail ถูกกำหนดไว้สำหรับคอลัมน์แคบ ๆ เท่านั้น */
+  .section-note br {
+    display: none;
+  }
+
+  .about-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 44px;
+  }
+
+  .skills-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    border-top: 0;
+    padding-top: 0;
+  }
+
+  .skill-block {
+    padding: 26px 0;
+    border-left: 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .skill-block:first-child {
+    border-top: 0;
+    padding-top: 0;
+  }
+
+  .skill-title {
+    margin-bottom: 16px;
+  }
+
+  .contact-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 44px;
+  }
+
+  /* เผื่อที่ให้ปุ่มกลับขึ้นด้านบน ไม่ให้ทับข้อความส่วนท้าย */
+  .site-footer {
+    padding-bottom: 64px;
+  }
+
+  .footer-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+}
+
+@media (max-width: 860px) {
+  :root {
+    --header-h: 64px;
+  }
+
+  .section {
+    padding-block: 68px;
+  }
+
+  .nav-toggle {
+    display: flex;
+  }
+
+  /* เมนูแบบเลื่อนลงบนมือถือ */
+  .nav {
+    position: fixed;
+    top: var(--header-h);
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 10px 20px 20px;
+    background: #f3f6fb;
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 24px 40px -30px rgba(13, 26, 48, 0.5);
+    transform: translateY(-10px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s ease;
+    max-height: calc(100vh - var(--header-h));
+    overflow-y: auto;
+  }
+
+  .nav.is-open {
+    transform: none;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .nav-list {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1px;
+  }
+
+  .nav-link {
+    padding: 11px 12px;
+    border-bottom: 1px solid var(--border);
+    border-radius: 0;
+  }
+
+  .nav-link::after {
+    display: none;
+  }
+
+  .nav-link.active {
+    background: var(--blue-50);
+  }
+
+  .nav-cta {
+    margin-top: 14px;
+    justify-content: center;
+    padding-block: 11px;
+  }
+}
+
+@media (max-width: 720px) {
+  .container {
+    padding-inline: 20px;
+  }
+
+  .hero-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 36px;
+  }
+
+  .hero-plate {
+    justify-self: start;
+    max-width: 300px;
+  }
+
+  .brand-text small {
+    display: none;
+  }
+
+  .hero-facts {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+    margin-top: 40px;
+  }
+
+  .hero-facts > div {
+    display: grid;
+    grid-template-columns: 84px minmax(0, 1fr);
+    gap: 12px;
+    align-items: baseline;
+  }
+
+  .hero-facts dt {
+    margin-bottom: 0;
+  }
+
+  .section-rail {
+    display: block;
+  }
+
+  .section-note {
+    max-width: 46ch;
+    text-align: left;
+    margin-top: 4px;
+  }
+
+  .info-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1px;
+    padding: 10px 0;
+  }
+
+  .info-row dt {
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  .entry {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+    padding: 22px 0;
+  }
+
+  .entry-when {
+    padding-top: 0;
+    font-size: 0.8rem;
+  }
+
+  .work-head {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .work-head .tag-list {
+    justify-content: flex-start;
+    max-width: none;
+    padding-top: 0;
+  }
+
+  .work-desc {
+    margin-top: 10px;
+  }
+
+  .contact-actions {
+    gap: 14px 22px;
+  }
+
+  .footer-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+}
+
+@media (max-width: 520px) {
+  .section {
+    padding-block: 56px;
+  }
+
+  .hero-actions .btn {
+    flex: 1 1 100%;
+  }
+
+  .brand-mark {
+    width: 34px;
+    height: 34px;
+    font-size: 0.9rem;
+  }
+
+  .brand-text strong {
+    font-size: 0.9rem;
+  }
+
+  .mini-list > div {
+    align-items: flex-start;
+    padding: 9px 0;
+  }
+
+  .about-side {
+    gap: 36px;
+  }
+
+  .about-facts .mini-group,
+  .about-side .mini-group {
+    margin-top: 32px;
+    padding-top: 22px;
+  }
+
+  .to-top {
+    right: 16px;
+    bottom: 16px;
+  }
+
+  .contact-actions {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .contact-actions .btn {
+    width: 100%;
+  }
+}
+
+/* =========================================================
+   14. โหมดพิมพ์ (Print / บันทึกเป็น PDF)
+   กระดาษ A4 คอลัมน์เดียว ขาว–ดำ ไม่มีพื้นหลังหรือเงา
+   ========================================================= */
+@page {
+  size: A4 portrait;
+  margin: 13mm 12mm;
+}
+
+@media print {
+  :root {
+    --white: #fff;
+    --bg: #fff;
+    --bg-soft: #fff;
+    --navy: #000;
+    --text: #000;
+    --muted: #333;
+    --border: #d4d4d4;
+    --border-strong: #b9b9b9;
+    --blue-50: #fff;
+    --blue-100: #e6e6e6;
+    --blue-200: #cfcfcf;
+    --blue-300: #c0c0c0;
+    --blue-500: #555;
+    --blue-600: #000;
+    --blue-700: #000;
+    --blue-900: #000;
+  }
+
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  html,
+  body {
+    background: #fff !important;
+    color: #000;
+    font-size: 10pt;
+    line-height: 1.5;
+    overflow: visible;
+  }
+
+  /* 1) ซ่อนส่วนที่ไม่ใช่เนื้อหา */
+  .site-header,
+  .nav,
+  .nav-toggle,
+  .scroll-progress,
+  .to-top,
+  .toast,
+  .skip-link,
+  .hero-actions,
+  .contact-actions,
+  .section-note {
+    display: none !important;
+  }
+
+  /* 2) โครงกระดาษ */
+  .container {
+    width: 100%;
+    max-width: none;
+    padding: 0;
+  }
+
+  .section {
+    padding: 12px 0 !important;
+    background: #fff !important;
+    border-top: 1px solid var(--border);
+  }
+
+  .section-grid {
+    display: block;
+  }
+
+  .section-rail {
+    position: static;
+    display: block;
+    border: 0;
+    padding: 0;
+    margin: 0 0 8px;
+  }
+
+  .section-title {
+    font-size: 14pt;
+    margin: 0;
+    padding-bottom: 3px;
+    border-bottom: 1px solid #000;
+    break-after: avoid;
+  }
+
+  .section-body {
+    margin: 0;
+  }
+
+  .group-title {
+    font-size: 8pt;
+    color: #000 !important;
+    margin-bottom: 4px;
+  }
+
+  /* 3) Hero = หัวกระดาษ CV */
+  .hero {
+    padding: 0 0 10px !important;
+    background: #fff !important;
+    border-bottom: 2px solid #000;
+    overflow: visible;
+  }
+
+  .hero::before {
+    display: none;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 16px;
+    align-items: start;
+  }
+
+  .hero-text {
+    padding-top: 0;
+  }
+
+  .hero-intro {
+    display: none;
+  }
+
+  .hero-name {
+    font-size: 21pt;
+    line-height: 1.25;
+    color: #000 !important;
+  }
+
+  .hero-role {
+    font-size: 10pt;
+    color: #000 !important;
+    margin-top: 4px;
+  }
+
+  .hero-desc {
+    font-size: 9.5pt;
+    color: #333 !important;
+    max-width: none;
+    margin: 6px 0 0;
+  }
+
+  .hero-plate {
+    width: 28mm;
+    max-width: 28mm;
+    justify-self: end;
+  }
+
+  .plate-frame {
+    padding: 2px;
+    border: 1px solid #999;
+    border-radius: 2px;
+  }
+
+  .plate-frame img {
+    border-radius: 1px;
+  }
+
+  .plate-caption {
+    margin-top: 4px;
+    font-size: 7.5pt;
+    color: #000 !important;
+  }
+
+  .status {
+    color: #000 !important;
+    font-size: 7.5pt;
+  }
+
+  .status-dot {
+    display: none;
+  }
+
+  .hero-facts {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid var(--border);
+  }
+
+  .hero-facts dt,
+  .hero-facts dd {
+    color: #000 !important;
+    font-size: 8.5pt;
+  }
+
+  .hero-facts dt {
+    margin-bottom: 0;
+  }
+
+  /* 4) เกี่ยวกับ */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 16px;
+  }
+
+  .about-side {
+    gap: 14px;
+  }
+
+  .info-row {
+    grid-template-columns: 104px minmax(0, 1fr);
+    gap: 8px;
+    padding: 4px 0;
+    font-size: 9pt;
+  }
+
+  .info-row dt,
+  .info-row dd {
+    color: #000 !important;
+  }
+
+  .lead {
+    font-size: 9.5pt;
+    line-height: 1.55;
+    color: #000 !important;
+    max-width: none;
+  }
+
+  .about-facts .mini-group,
+  .about-side .mini-group {
+    margin-top: 8px;
+    padding-top: 6px;
+  }
+
+  .mini-list > div {
+    padding: 3px 0;
+  }
+
+  .mini-list dt,
+  .mini-list dd {
+    font-size: 8.5pt;
+    color: #000 !important;
+  }
+
+  .mini-group .group-title {
+    margin-bottom: 2px;
+  }
+
+  /* 5) ทักษะ */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-top: 0;
+    padding-top: 0;
+    gap: 14px;
+  }
+
+  .skill-block {
+    padding: 0;
+    border: 0;
+  }
+
+  .skill-title {
+    font-size: 11pt;
+    margin-bottom: 6px;
+    color: #000 !important;
+  }
+
+  .progress-group {
+    gap: 5px;
+  }
+
+  .progress-head {
+    font-size: 8.5pt;
+    color: #000 !important;
+    margin-bottom: 2px;
+  }
+
+  .progress-pct {
+    color: #000 !important;
+    font-size: 7.5pt;
+  }
+
+  .progress-track {
+    height: 4px;
+    background: #eee !important;
+    border: 1px solid #bbb;
+  }
+
+  .progress-bar {
+    width: var(--print-width, 0) !important;
+    background: #444 !important;
+  }
+
+  .bullet-list {
+    gap: 2px;
+  }
+
+  .bullet-list li {
+    font-size: 8.5pt;
+    color: #000 !important;
+    padding-left: 10px;
+    line-height: 1.5;
+  }
+
+  .bullet-list li::before {
+    width: 3px;
+    height: 3px;
+    top: 0.65em;
+    background: #555;
+  }
+
+  /* 6) ประสบการณ์ & การศึกษา */
+  .entry {
+    grid-template-columns: 120px minmax(0, 1fr);
+    gap: 12px;
+    padding: 8px 0;
+    break-inside: avoid;
+  }
+
+  .entry-when {
+    padding-top: 2px;
+    font-size: 8pt;
+    color: #333 !important;
+  }
+
+  .entry-role {
+    font-size: 10.5pt;
+    margin-bottom: 1px;
+    color: #000 !important;
+  }
+
+  .entry-kind,
+  .entry-org,
+  .entry-detail {
+    color: #000 !important;
+    font-size: 8.5pt;
+  }
+
+  .entry-org {
+    margin-bottom: 3px;
+  }
+
+  /* 7) ผลงาน */
+  .work {
+    padding: 6px 0;
+    break-inside: avoid;
+  }
+
+  .work-head {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .work-title {
+    font-size: 10.5pt;
+    color: #000 !important;
+  }
+
+  .work-desc {
+    font-size: 8.5pt;
+    color: #333 !important;
+    margin-top: 2px;
+  }
+
+  .tag-list li {
+    font-size: 7pt;
+    padding: 1px 5px;
+    border-color: #bbb;
+    color: #000 !important;
+    background: #fff !important;
+    white-space: normal;
+  }
+
+  /* 8) ติดต่อ */
+  .section-contact {
+    background: #fff !important;
+    color: #000 !important;
+    border-top: 1px solid var(--border);
+  }
+
+  .section-contact::before {
+    display: none;
+  }
+
+  .section-contact .section-title,
+  .contact-title {
+    color: #000 !important;
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 16px;
+  }
+
+  .contact-desc {
+    color: #333 !important;
+    font-size: 9pt;
+    max-width: none;
+  }
+
+  .contact-list {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .contact-list li {
+    border-top: 1px solid var(--border);
+    padding: 4px 0;
+  }
+
+  .contact-icon {
+    display: none;
+  }
+
+  .contact-label {
+    color: #333 !important;
+    font-size: 7.5pt;
+  }
+
+  .contact-list a,
+  .contact-list div > span:not(.contact-label) {
+    color: #000 !important;
+    font-size: 8.5pt;
+  }
+
+  /* 9) ส่วนท้าย + ลิงก์ */
+  .site-footer {
+    background: #fff !important;
+    color: #000 !important;
+    border-top: 1px solid var(--border);
+    padding: 6px 0 0;
+    margin-top: 8px;
+  }
+
+  .site-footer p {
+    font-size: 7.5pt;
+  }
+
+  .footer-note {
+    color: #333 !important;
+  }
+
+  .footer-inner {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  a {
+    color: #000 !important;
+    text-decoration: underline;
+  }
+
+  /* 10) เนื้อหาที่ซ่อนด้วย reveal ต้องพิมพ์ออกมาครบ */
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .info-row,
+  .progress-item,
+  .contact-list li {
+    break-inside: avoid;
+  }
+}

@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>นราวิชญ์ ศิริ | Developer (Frontend / Backend) &amp; IT Support</title>
+  <meta name="description" content="เว็บไซต์ Portfolio ของ นราวิชญ์ ศิริ (Narawit Siri) — Developer (Frontend / Backend) และ IT Support สนใจการพัฒนาเว็บ ระบบ และการดูแลไอที" />
+  <meta name="author" content="นราวิชญ์ ศิริ" />
+  <meta name="theme-color" content="#0a1f47" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg" />
+
+  <!-- ฟอนต์: Trirong (หัวข้อ) + IBM Plex Sans Thai (เนื้อหา) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Trirong:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- สไตล์หลัก -->
+  <link rel="stylesheet" href="assets/css/style.css" />
+
+  <!-- ถ้าปิด JavaScript ไว้ ก็ยังเห็นเนื้อหาครบ (ไม่ค้างอยู่ในสภาพซ่อน) -->
+  <noscript>
+    <style>
+      .reveal {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    </style>
+  </noscript>
+</head>
+
+<body>
+  <!-- แถบความคืบหน้าการเลื่อนหน้า -->
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+  <!-- ปุ่มข้ามไปเนื้อหาหลัก (เพื่อการเข้าถึง) -->
+  <a class="skip-link" href="#home">ข้ามไปยังเนื้อหาหลัก</a>
+
+  <!-- ============ ส่วนหัว / เมนูนำทาง ============ -->
+  <header class="site-header" id="siteHeader">
+    <div class="container header-inner">
+      <a class="brand" href="#home" aria-label="กลับไปหน้าแรก">
+        <span class="brand-mark" aria-hidden="true">NS</span>
+        <span class="brand-text">
+          <strong>นราวิชญ์ ศิริ</strong>
+          <small>Developer &amp; IT Support</small>
+        </span>
+      </a>
+
+      <nav class="nav" id="primaryNav" aria-label="เมนูหลัก">
+        <ul class="nav-list">
+          <li><a class="nav-link" href="#home">หน้าแรก</a></li>
+          <li><a class="nav-link" href="#about">เกี่ยวกับ</a></li>
+          <li><a class="nav-link" href="#skills">ทักษะ</a></li>
+          <li><a class="nav-link" href="#experience">ประสบการณ์</a></li>
+          <li><a class="nav-link" href="#projects">ผลงาน</a></li>
+        </ul>
+
+        <a class="btn btn-primary btn-sm nav-cta" href="#contact">จ้างงาน / ติดต่อ</a>
+      </nav>
+
+      <button
+        class="nav-toggle"
+        id="navToggle"
+        type="button"
+        aria-label="เปิด-ปิดเมนู"
+        aria-expanded="false"
+        aria-controls="primaryNav"
+      >
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- ============ หน้าแรก (Hero) ============ -->
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div class="hero-text reveal">
+          <p class="hero-intro">สวัสดีครับ ผมชื่อ</p>
+          <h1 class="hero-name">นราวิชญ์ ศิริ</h1>
+          <p class="hero-role">Developer (Frontend / Backend) และ IT Support</p>
+
+          <p class="hero-desc">
+            ตั้งใจเติบโตในสายงาน Developer (Frontend / Backend) เป็นหลัก
+            พร้อมพื้นฐานด้านไอทีที่ดูแลระบบ แก้ไขปัญหาอุปกรณ์
+            และตั้งค่าเครือข่ายเบื้องต้นได้
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#experience">ดูประสบการณ์</a>
+            <button class="btn btn-outline" type="button" id="printBtn">พิมพ์ / บันทึก PDF</button>
+          </div>
+        </div>
+
+        <figure class="hero-plate reveal">
+          <div class="plate-frame">
+            <img
+              src="assets/images/profile.png"
+              alt="รูปถ่ายของ นราวิชญ์ ศิริ"
+              width="270"
+              height="360"
+              loading="eager"
+            />
+          </div>
+          <figcaption class="plate-caption">
+            <span class="status"><span class="status-dot" aria-hidden="true"></span>พร้อมเริ่มงาน</span>
+          </figcaption>
+        </figure>
+      </div>
+
+      <div class="container">
+        <dl class="hero-facts">
+          <div>
+            <dt>อายุ</dt>
+            <dd>26 ปี</dd>
+          </div>
+          <div>
+            <dt>การศึกษา</dt>
+            <dd>วท.บ. วิทยาการคอมพิวเตอร์</dd>
+          </div>
+          <div>
+            <dt>พื้นที่</dt>
+            <dd>แม่แตง, เชียงใหม่</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- ============ เกี่ยวกับ / ข้อมูลส่วนตัว ============ -->
+    <section class="section" id="about">
+      <div class="container section-grid">
+        <div class="section-rail reveal">
+          <h2 class="section-title">เกี่ยวกับ</h2>
+          <p class="section-note">ข้อมูลส่วนตัวและ<br />เป้าหมายการทำงาน</p>
+        </div>
+
+        <div class="section-body about-grid">
+          <div class="about-facts reveal">
+            <h3 class="group-title">ข้อมูลส่วนตัว</h3>
+
+            <dl class="info-list">
+              <div class="info-row">
+                <dt>ชื่อ-นามสกุล</dt>
+                <dd>นราวิชญ์ ศิริ</dd>
+              </div>
+              <div class="info-row">
+                <dt>อายุ</dt>
+                <dd>26 ปี</dd>
+              </div>
+              <div class="info-row">
+                <dt>วันเกิด</dt>
+                <dd>12 กันยายน 2543</dd>
+              </div>
+              <div class="info-row">
+                <dt>ที่อยู่</dt>
+                <dd>50 หมู่ 7 ซอย 13 ตำบลขี้เหล็ก อำเภอแม่แตง จังหวัดเชียงใหม่</dd>
+              </div>
+              <div class="info-row">
+                <dt>อีเมล</dt>
+                <dd>
+                  <a class="js-copy-email" href="mailto:Narawit120943@proton.me">
+                    Narawit120943@proton.me
+                  </a>
+                </dd>
+              </div>
+              <div class="info-row">
+                <dt>เบอร์ติดต่อ</dt>
+                <dd><a href="tel:0931670569">093-167-0569</a></dd>
+              </div>
+              <div class="info-row">
+                <dt>GitHub</dt>
+                <dd>
+                  <a href="https://github.com/Doomguy159753" target="_blank" rel="noopener noreferrer">
+                    github.com/Doomguy159753
+                  </a>
+                </dd>
+              </div>
+            </dl>
+
+            <div class="mini-group reveal">
+              <h3 class="group-title">ภาษา</h3>
+              <dl class="mini-list">
+                <div>
+                  <dt>ไทย</dt>
+                  <dd>เจ้าของภาษา</dd>
+                </div>
+                <div>
+                  <dt>อังกฤษ</dt>
+                  <dd>ระดับพื้นฐาน (อ่านคู่มือภาษาอังกฤษได้)</dd>
+                </div>
+              </dl>
+            </div>
+          </div>
+
+          <div class="about-side">
+            <div class="about-objective reveal">
+              <h3 class="group-title">วัตถุประสงค์</h3>
+              <p class="lead">
+                มุ่งมั่นเติบโตในสายงาน Developer (Frontend / Backend) เป็นหลัก
+                เพื่อออกแบบและพัฒนาเว็บแอปพลิเคชันที่ใช้งานง่ายและตอบโจทย์ผู้ใช้
+                โดยมีพื้นฐานด้านไอทีที่แข็งแรง จึงดูแลระบบ แก้ไขปัญหาอุปกรณ์
+                และตั้งค่าเครือข่ายเบื้องต้นให้เพื่อนร่วมงานได้ด้วย
+                พร้อมเรียนรู้เทคโนโลยีใหม่ ๆ และทำงานร่วมกับทีมอย่างมีประสิทธิภาพ
+              </p>
+            </div>
+
+            <div class="mini-group reveal">
+              <h3 class="group-title">งานอดิเรก</h3>
+              <ul class="tag-list">
+                <li>ศึกษา IT</li>
+                <li>ทดลอง Software</li>
+                <li>ถอดแยกและประกอบฮาร์ดแวร์</li>
+                <li>ศึกษาเกี่ยวกับการลงทุนและการเงิน</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ทักษะและความสามารถ ============ -->
+    <section class="section is-tinted" id="skills">
+      <div class="container section-grid">
+        <div class="section-rail reveal">
+          <h2 class="section-title">ทักษะ</h2>
+          <p class="section-note">การเขียนโปรแกรม การดูแลไอที<br />และการทำงานร่วมกับผู้อื่น</p>
+        </div>
+
+        <div class="section-body skills-grid">
+          <!-- Programming -->
+          <article class="skill-block reveal">
+            <h3 class="skill-title">Programming</h3>
+
+            <div class="progress-group">
+              <div class="progress-item">
+                <div class="progress-head">
+                  <span>Python</span>
+                  <span class="progress-pct">70%</span>
+                </div>
+                <div class="progress-track"><span class="progress-bar" data-level="70"></span></div>
+              </div>
+
+              <div class="progress-item">
+                <div class="progress-head">
+                  <span>SQL</span>
+                  <span class="progress-pct">65%</span>
+                </div>
+                <div class="progress-track"><span class="progress-bar" data-level="65"></span></div>
+              </div>
+
+              <div class="progress-item">
+                <div class="progress-head">
+                  <span>Java</span>
+                  <span class="progress-pct">55%</span>
+                </div>
+                <div class="progress-track"><span class="progress-bar" data-level="55"></span></div>
+              </div>
+
+              <div class="progress-item">
+                <div class="progress-head">
+                  <span>Web Development<br />(HTML / CSS / JS)</span>
+                  <span class="progress-pct">75%</span>
+                </div>
+                <div class="progress-track"><span class="progress-bar" data-level="75"></span></div>
+              </div>
+            </div>
+          </article>
+
+          <!-- IT Support -->
+          <article class="skill-block reveal">
+            <h3 class="skill-title">IT Support</h3>
+            <ul class="bullet-list">
+              <li>การแก้ไขปัญหาคอมพิวเตอร์พื้นฐาน (เปลี่ยนฮาร์ดแวร์, แก้ปัญหาซอฟต์แวร์)</li>
+              <li>ความรู้เกี่ยวกับระบบปฏิบัติการ Windows</li>
+              <li>การตั้งค่าเครือข่ายเบื้องต้น (Wi-Fi, Router)</li>
+              <li>การใช้งาน Microsoft Office, Google Workspace, Canva</li>
+            </ul>
+          </article>
+
+          <!-- Soft Skills -->
+          <article class="skill-block reveal">
+            <h3 class="skill-title">Soft Skills</h3>
+            <ul class="bullet-list">
+              <li>การทำงานเป็นทีม</li>
+              <li>การเรียนรู้ด้วยตนเอง</li>
+              <li>การสื่อสารที่ดี สามารถอธิบายปัญหาทางเทคนิคให้ผู้ใช้ทั่วไปเข้าใจง่าย</li>
+              <li>ความอดทนและการทำงานร่วมกับผู้อื่นได้ดี</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ประสบการณ์การทำงาน ============ -->
+    <section class="section" id="experience">
+      <div class="container section-grid">
+        <div class="section-rail reveal">
+          <h2 class="section-title">ประสบการณ์</h2>
+          <p class="section-note">ฝึกงาน งานอิสระ<br />และงานจ้างเหมา</p>
+        </div>
+
+        <div class="section-body">
+          <ol class="entry-list">
+            <li class="entry reveal">
+              <p class="entry-when">เมษายน 2566 – พฤษภาคม 2566</p>
+              <div class="entry-main">
+                <h3 class="entry-role">Frontend Developer <span class="entry-kind">(ฝึกงาน)</span></h3>
+                <p class="entry-org">
+                  บริษัท นาโนคอฟฟี่และนวัตกรรมเพื่อสุขภาพ (ประเทศไทย) จำกัด
+                </p>
+                <ul class="bullet-list">
+                  <li>ช่วยออกแบบและพัฒนาฟังก์ชันสำหรับเว็บไซต์บริษัท</li>
+                  <li>ได้รับประสบการณ์การทำงานในสภาพแวดล้อมจริง</li>
+                  <li>ฝึกทักษะการประสานงานกับทีมงาน</li>
+                </ul>
+              </div>
+            </li>
+
+            <li class="entry reveal">
+              <p class="entry-when">2563 – 2566</p>
+              <div class="entry-main">
+                <h3 class="entry-role">งานดูดวงไพ่ทาโรต์ <span class="entry-kind">(งานอิสระ)</span></h3>
+                <p class="entry-org">รับงานอิสระ</p>
+                <ul class="bullet-list">
+                  <li>ฝึกทักษะการพูดคุยกับคนหลากหลายประเภท</li>
+                  <li>พัฒนาทักษะการสื่อสารและการรับฟัง</li>
+                  <li>เรียนรู้การแก้ไขปัญหาและให้คำปรึกษา</li>
+                </ul>
+              </div>
+            </li>
+
+            <li class="entry reveal">
+              <p class="entry-when">2568 – 2569</p>
+              <div class="entry-main">
+                <h3 class="entry-role">พนักงานจ้างเหมา</h3>
+                <p class="entry-org">
+                  บริษัท สยามราชธานี จำกัด (มหาชน) ทำงานร่วมกับ กฟภ.
+                </p>
+                <ul class="bullet-list">
+                  <li>การใช้งานอุปกรณ์สำนักงาน</li>
+                  <li>รับโทรศัพท์พูดคุยกับผู้ใช้ไฟฟ้า</li>
+                  <li>การจัดทำเอกสารเบื้องต้น</li>
+                </ul>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ประวัติการศึกษา ============ -->
+    <section class="section is-tinted" id="education">
+      <div class="container section-grid">
+        <div class="section-rail reveal">
+          <h2 class="section-title">การศึกษา</h2>
+          <p class="section-note">มัธยมศึกษา<br />และปริญญาตรี</p>
+        </div>
+
+        <div class="section-body">
+          <ol class="entry-list">
+            <li class="entry reveal">
+              <p class="entry-when">2559 – 2562</p>
+              <div class="entry-main">
+                <h3 class="entry-role">ระดับมัธยม</h3>
+                <p class="entry-org">โรงเรียนแม่แตง</p>
+              </div>
+            </li>
+
+            <li class="entry reveal">
+              <p class="entry-when">2562 – 2568</p>
+              <div class="entry-main">
+                <h3 class="entry-role">ปริญญาตรี</h3>
+                <p class="entry-org">มหาวิทยาลัยแม่โจ้</p>
+                <p class="entry-detail">สาขาวิชา วิทยาการคอมพิวเตอร์</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ โปรเจคส่วนตัว ============ -->
+    <section class="section" id="projects">
+      <div class="container section-grid">
+        <div class="section-rail reveal">
+          <h2 class="section-title">ผลงาน</h2>
+          <p class="section-note">โครงงานและผลงาน<br />ที่ลงมือทำด้วยตนเอง</p>
+        </div>
+
+        <div class="section-body">
+          <div class="work-list">
+            <article class="work reveal">
+              <div class="work-head">
+                <h3 class="work-title">เว็บคำนวณค่าลดหย่อนภาษีส่วนบุคคล</h3>
+                <ul class="tag-list">
+                  <li>Web Application</li>
+                  <li>Frontend</li>
+                </ul>
+              </div>
+              <p class="work-desc">
+                โครงงานจบการศึกษาที่แสดงทักษะการพัฒนาเว็บแอปพลิเคชัน
+              </p>
+            </article>
+
+            <article class="work reveal">
+              <div class="work-head">
+                <h3 class="work-title">ระบบจัดการข้อมูลด้วย Python</h3>
+                <ul class="tag-list">
+                  <li>Python</li>
+                  <li>Data Management</li>
+                </ul>
+              </div>
+              <p class="work-desc">สร้างสคริปต์และโปรแกรมเพื่อจัดการข้อมูลส่วนตัว</p>
+            </article>
+
+            <article class="work reveal">
+              <div class="work-head">
+                <h3 class="work-title">การตั้งค่าเครือข่ายในบ้าน</h3>
+                <ul class="tag-list">
+                  <li>Router</li>
+                  <li>Wi-Fi</li>
+                  <li>Networking</li>
+                </ul>
+              </div>
+              <p class="work-desc">
+                ตั้งค่า Router และ Wi-Fi เพื่อฝึกทักษะการจัดการเครือข่าย
+              </p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ติดต่อ ============ -->
+    <section class="section section-contact" id="contact">
+      <div class="container section-grid">
+        <div class="section-rail reveal">
+          <h2 class="section-title">ติดต่อ</h2>
+          <p class="section-note">ยินดีให้ข้อมูลเพิ่มเติม<br />ได้เสมอ</p>
+        </div>
+
+        <div class="section-body contact-grid">
+          <div class="contact-main reveal">
+            <h3 class="contact-title">พร้อมร่วมงานกับทีมของคุณ</h3>
+            <p class="contact-desc">
+              หากมีตำแหน่งงานด้าน Developer (Frontend / Backend), IT Support
+              หรือระบบเครือข่าย ยินดีให้ข้อมูลเพิ่มเติมได้เสมอครับ
+            </p>
+
+            <div class="contact-actions">
+              <a class="btn btn-light js-copy-email" href="mailto:Narawit120943@proton.me">
+                ส่งอีเมล
+              </a>
+              <a class="link-underline" href="tel:0931670569">โทร 093-167-0569</a>
+              <a
+                class="link-underline"
+                href="https://github.com/Doomguy159753"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                ดู GitHub
+              </a>
+            </div>
+          </div>
+
+          <ul class="contact-list">
+            <li>
+              <svg class="contact-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <rect x="3" y="5" width="18" height="14" rx="2" />
+                <path d="m4 7 8 6 8-6" />
+              </svg>
+              <div>
+                <span class="contact-label">อีเมล</span>
+                <a class="js-copy-email" href="mailto:Narawit120943@proton.me">
+                  Narawit120943@proton.me
+                </a>
+              </div>
+            </li>
+            <li>
+              <svg class="contact-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M6.5 3.5h3l1.5 4-2 1.5a12 12 0 0 0 6 6l1.5-2 4 1.5v3a2 2 0 0 1-2.2 2A17.5 17.5 0 0 1 4.5 5.7 2 2 0 0 1 6.5 3.5Z" />
+              </svg>
+              <div>
+                <span class="contact-label">เบอร์ติดต่อ</span>
+                <a href="tel:0931670569">093-167-0569</a>
+              </div>
+            </li>
+            <li>
+              <svg class="contact-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M12 21s7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11Z" />
+                <circle cx="12" cy="10" r="2.5" />
+              </svg>
+              <div>
+                <span class="contact-label">ที่อยู่</span>
+                <span>50 หมู่ 7 ซอย 13 ตำบลขี้เหล็ก อำเภอแม่แตง จังหวัดเชียงใหม่</span>
+              </div>
+            </li>
+            <li>
+              <svg class="contact-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <circle cx="7" cy="5" r="2" />
+                <circle cx="7" cy="19" r="2" />
+                <circle cx="17" cy="9" r="2" />
+                <path d="M7 7v10M9 19h4a4 4 0 0 0 4-4v-4" />
+              </svg>
+              <div>
+                <span class="contact-label">GitHub</span>
+                <a href="https://github.com/Doomguy159753" target="_blank" rel="noopener noreferrer">
+                  github.com/Doomguy159753
+                </a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ ส่วนท้าย ============ -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year">2026</span> นราวิชญ์ ศิริ</p>
+      <p class="footer-note">Portfolio — สร้างด้วย HTML, CSS และ JavaScript</p>
+    </div>
+  </footer>
+
+  <!-- ปุ่มกลับขึ้นด้านบน -->
+  <button class="to-top" id="toTop" type="button" aria-label="กลับขึ้นด้านบน">
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="M12 19V5M5 12l7-7 7 7" />
+    </svg>
+  </button>
+
+  <!-- ข้อความแจ้งเตือนลอยด้านล่าง (ใช้ตอนกดคัดลอกอีเมล) -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- สคริปต์หลัก -->
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
